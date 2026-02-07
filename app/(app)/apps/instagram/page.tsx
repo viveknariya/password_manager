@@ -30,7 +30,6 @@ export default function InstagramPage() {
           setAccounts(json.data);
         }
       } catch (error) {
-        console.error("Failed to fetch instagram accounts:", error);
       } finally {
         setLoading(false);
       }
@@ -45,6 +44,7 @@ export default function InstagramPage() {
 
   const newAccount: InstagramAccount = {
     id: "new",
+    user_id: "",
     username: "",
     email: "",
     password: "",

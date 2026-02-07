@@ -77,7 +77,6 @@ export async function POST(req: Request) {
       { status: 200 },
     );
   } catch (error: any) {
-    console.error("Error verifying OTP:", error);
     return NextResponse.json<ApiResponse>(
       { success: false, message: "Failed to verify OTP" },
       { status: 500 },

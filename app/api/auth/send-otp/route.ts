@@ -43,14 +43,11 @@ export async function POST(req: Request) {
       `,
     });
 
-    console.log(`OTP sent to ${email}`);
-
     return NextResponse.json<ApiResponse>({
       success: true,
       message: "OTP sent successfully",
     });
   } catch (error: any) {
-    console.error("Error sending OTP:", error);
     return NextResponse.json<ApiResponse>(
       { success: false, message: "Failed to send OTP" },
       { status: 500 },

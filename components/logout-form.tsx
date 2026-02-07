@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@/lib/store";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-hot-toast";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -22,11 +23,10 @@ export function LogoutButton() {
       if (response.ok) {
         setUser(null);
         router.push("/login");
-        alert("You have been logged out successfully.");
+        toast.success("You have been logged out successfully.");
       } else {
       }
     } catch (error) {
-      console.error("Logout failed:", error);
     } finally {
       setIsLoading(false);
     }

@@ -38,7 +38,6 @@ export const GET = withAuth(async (request: NextRequest) => {
       data: user,
     });
   } catch (error) {
-    console.error("GET /api/user-info error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -89,7 +88,6 @@ export const POST = withAuth(async (request: NextRequest) => {
       data: updatedUser,
     });
   } catch (error) {
-    console.error("POST /api/user-info error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,

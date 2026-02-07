@@ -38,7 +38,6 @@ export const GET = withAuth(async (request: NextRequest) => {
       data: accounts,
     });
   } catch (error) {
-    console.error("GET /api/instagram error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -84,7 +83,6 @@ export const POST = withAuth(async (request: NextRequest) => {
       data: newAccount,
     });
   } catch (error) {
-    console.error("POST /api/instagram error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -158,7 +156,6 @@ export const PUT = withAuth(async (request: NextRequest) => {
       data: updatedAccount,
     });
   } catch (error) {
-    console.error("PUT /api/instagram error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -215,7 +212,6 @@ export const DELETE = withAuth(async (request: NextRequest) => {
       message: "Instagram account deleted successfully",
     });
   } catch (error) {
-    console.error("DELETE /api/instagram error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,

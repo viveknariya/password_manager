@@ -25,7 +25,6 @@ export default function AppInitProvider({ children }: { children: ReactNode }) {
         setUser(data.data);
       }
     } catch (error) {
-      console.error("Error fetching user info:", error);
       setUser(null);
     } finally {
       setIsInitialized(true);

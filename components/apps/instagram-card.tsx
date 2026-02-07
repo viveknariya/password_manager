@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Trash2, Edit2, Save, X, Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 interface InstagramCardProps {
   account: InstagramAccount;
@@ -57,11 +58,14 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
           );
         }
         setEditingId(null);
+        toast.success(
+          isNew ? "Account added successfully" : "Account updated successfully",
+        );
       } else {
-        console.error("Failed to save account:", json.message);
+        toast.error(json.message || "Failed to save account");
       }
     } catch (error) {
-      console.error("Error saving account:", error);
+      toast.error("An error occurred while saving the account");
     } finally {
       setSubmitting(false);
     }
@@ -91,11 +95,12 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
 
       if (json.success) {
         setAccounts(accounts.filter((acc) => acc.id !== account.id));
+        toast.success("Account deleted successfully");
       } else {
-        console.error("Failed to delete account:", json.message);
+        toast.error(json.message || "Failed to delete account");
       }
     } catch (error) {
-      console.error("Error deleting account:", error);
+      toast.error("An error occurred while deleting the account");
     } finally {
       setSubmitting(false);
     }

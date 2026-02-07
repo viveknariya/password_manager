@@ -6,10 +6,10 @@ export interface SendEmailOptions {
 
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
   const ZEPTOMAIL_API_KEY = process.env.ZEPTOMAIL_API_KEY;
-  const ZEPTOMAIL_FROM_ADDRESS = process.env.ZEPTOMAIL_FROM_ADDRESS || "noreply@zallyy.com";
+  const ZEPTOMAIL_FROM_ADDRESS =
+    process.env.ZEPTOMAIL_FROM_ADDRESS || "noreply@zallyy.com";
 
   if (!ZEPTOMAIL_API_KEY) {
-    console.error("Missing ZeptoMail API configuration in environment variables.");
     throw new Error("Email configuration is incomplete.");
   }
 
@@ -19,9 +19,9 @@ export async function sendEmail({ to, subject, html }: SendEmailOptions) {
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": ZEPTOMAIL_API_KEY,
+        Authorization: ZEPTOMAIL_API_KEY,
       },
       body: JSON.stringify({
         from: { address: ZEPTOMAIL_FROM_ADDRESS },
@@ -34,14 +34,11 @@ export async function sendEmail({ to, subject, html }: SendEmailOptions) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("ZeptoMail API Error:", data);
       throw new Error(data.message || "Failed to send email via ZeptoMail API");
     }
 
     return data;
   } catch (error: unknown) {
-    console.error("Error in sendEmail:", error);
     throw error;
   }
 }
-

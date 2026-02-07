@@ -72,7 +72,6 @@ export const POST = withAuth(async (request: NextRequest) => {
       data: { url: session.url },
     });
   } catch (error: any) {
-    console.error("POST /api/stripe/portal error:", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,

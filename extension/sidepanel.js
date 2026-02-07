@@ -29,9 +29,7 @@ async function updateContext() {
       iframe.style.display = "none";
       iframe.src = targetUrl;
     }
-  } catch (error) {
-    console.error("Error updating context:", error);
-  }
+  } catch (error) {}
 }
 
 // Global iframe load handler

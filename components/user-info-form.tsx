@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/lib/store";
+import { toast } from "react-hot-toast";
 
 export function UserInfoForm({
   className,
@@ -45,13 +46,11 @@ export function UserInfoForm({
 
       if (!response.ok || !data.success) {
         // Handle error
-        window.alert(data.message || "Failed to save user info");
+        toast.error(data.message || "Failed to save user info");
       } else {
-        window.alert(data.message || "User info saved successfully");
+        toast.success(data.message || "User info saved successfully");
       }
-    } catch (error) {
-      console.error("Error saving user info:", error);
-    }
+    } catch (error) {}
   };
 
   const getUserInfo = async () => {
@@ -60,15 +59,12 @@ export function UserInfoForm({
       const data: ApiResponse<User> = await response.json();
 
       if (!response.ok || !data.success || !data.data) {
-        console.log(data.message);
       }
       if (data.data) {
         setFirstName(data.data.first_name || "");
         setLastName(data.data.last_name || "");
       }
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

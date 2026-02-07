@@ -15,7 +15,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 export function LoginForm({
   className,
@@ -51,7 +51,6 @@ export function LoginForm({
         setUser(data.data);
       }
     } catch (error) {
-      console.error("Error fetching user info:", error);
       setUser(null);
     }
   };
@@ -78,7 +77,6 @@ export function LoginForm({
         setCountdown(30);
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
@@ -104,7 +102,6 @@ export function LoginForm({
         toast.success(data.message || "Logged in successfully");
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
