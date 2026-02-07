@@ -29,7 +29,7 @@ export default function InstagramPage() {
         if (json.success && json.data) {
           setAccounts(json.data);
         }
-      } catch (error) {
+      } catch {
       } finally {
         setLoading(false);
       }

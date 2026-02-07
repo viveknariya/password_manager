@@ -29,31 +29,23 @@ export function LoginForm({
   const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (countdown > 0) {
-      timer = setInterval(() => {
-        setCountdown((prev) => prev - 1);
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [countdown]);
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  const getUserInfo = async () => {
-    try {
-      const response = await fetch("/api/user-info");
-      const data: ApiResponse<User> = await response.json();
-
-      if (data.data) {
-        setUser(data.data);
+    let isMounted = true;
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch("/api/user-info");
+        const data: ApiResponse<User> = await response.json();
+        if (isMounted && data.data) {
+          setUser(data.data);
+        }
+      } catch {
+        if (isMounted) setUser(null);
       }
-    } catch (error) {
-      setUser(null);
-    }
-  };
+    };
+    fetchUserInfo();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const sendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,7 +180,7 @@ export function LoginForm({
                     <Button type="submit">Submit</Button>
                   </Field>
                   <div className="text-center text-sm">
-                    Didn't receive the code?{" "}
+                    Didn&apos;t receive the code?{" "}
                     <button
                       type="button"
                       onClick={(e) => sendOTP(e)}

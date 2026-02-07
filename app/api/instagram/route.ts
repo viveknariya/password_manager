@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/db";
 import { withAuth } from "@/lib/auth";
-import { ApiResponse, InstagramAccount, User } from "@/lib/types";
+import { ApiResponse, InstagramAccount } from "@/lib/types";
 import { encrypt, decrypt } from "@/lib/crypto";
 
 export const GET = withAuth(async (request: NextRequest) => {
@@ -37,7 +37,7 @@ export const GET = withAuth(async (request: NextRequest) => {
       message: "Instagram accounts fetched successfully",
       data: accounts,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -82,7 +82,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       message: "Instagram account created successfully",
       data: newAccount,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -155,7 +155,7 @@ export const PUT = withAuth(async (request: NextRequest) => {
       message: "Instagram account updated successfully",
       data: updatedAccount,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -211,7 +211,7 @@ export const DELETE = withAuth(async (request: NextRequest) => {
       success: true,
       message: "Instagram account deleted successfully",
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,

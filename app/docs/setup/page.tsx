@@ -50,8 +50,8 @@ export default function SetupPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">Next Steps</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Once you've completed the setup, you're ready to dive in! Here's
-            what to do next:
+            Once you&apos;ve completed the setup, you&apos;re ready to dive in!
+            Here&apos;s what to do next:
           </p>
           <ul className="list-disc list-inside space-y-2 text-muted-foreground">
             <li>

@@ -46,7 +46,7 @@ type pageData = {
 
 export const seoConfig: Record<string, pageData> = {};
 
-((seoConfig["/"] = {
+seoConfig["/"] = {
   pageTitle: "Social Media Credential Manager | SocialVault",
   pageDescription:
     "Securely manage your Google, Facebook, Instagram, and YouTube login credentials in one minimal, encrypted vault. Open-source and privacy-focused.",
@@ -76,138 +76,143 @@ export const seoConfig: Record<string, pageData> = {};
     description:
       "Securely manage your Google, Facebook, Instagram, and YouTube login credentials in one minimal, encrypted vault.",
   },
-}),
-  (seoConfig["/contact"] = {
-    pageTitle: "Contact | SocialVault",
-    pageDescription:
-      "Get in touch with the SocialVault team for support or inquiries.",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "Contact SocialVault",
-    pageUrl: `${baseUrl}/contact`,
-    pageKeywords: ["Contact SocialVault", "support"],
-    sitemap: {
-      url: `${baseUrl}/contact`,
-      lastModified: "2025-07-25T00:00:00+05:30",
-      changeFrequency: "yearly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "ContactPage",
-      name: "Contact SocialVault",
-      url: `${baseUrl}/contact`,
-      description: "Get in touch with the SocialVault team.",
-    },
-  }),
-  (seoConfig["/privacy-policy"] = {
-    pageTitle: "Privacy Policy | SocialVault",
-    pageDescription:
-      "How we protect your social media credentials and data privacy.",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "SocialVault Privacy Policy",
-    pageUrl: `${baseUrl}/privacy-policy`,
-    pageKeywords: ["Privacy Policy", "Data Security"],
-    sitemap: {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified: "2026-01-11T00:00:00+05:30",
-      changeFrequency: "yearly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "WebPage",
-      name: "Privacy Policy - SocialVault",
-      url: `${baseUrl}/privacy-policy`,
-      description: "Privacy Policy for SocialVault.",
-    },
-  }),
-  (seoConfig["/terms-and-conditions"] = {
-    pageTitle: "Terms and Conditions | SocialVault",
-    pageDescription:
-      "Terms and Conditions for using SocialVault social media credential manager.",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "SocialVault Terms and Conditions",
-    pageUrl: `${baseUrl}/terms-and-conditions`,
-    pageKeywords: ["Terms and Conditions"],
-    sitemap: {
-      url: `${baseUrl}/terms-and-conditions`,
-      lastModified: "2026-01-11T00:00:00+05:30",
-      changeFrequency: "yearly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "WebPage",
-      name: "Terms and Conditions - SocialVault",
-      url: `${baseUrl}/terms-and-conditions`,
-      description: "Terms and Conditions for SocialVault.",
-    },
-  }),
-  (seoConfig["/blogs"] = {
-    pageTitle: "Blogs",
-    pageDescription: "Blogs",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "Logo",
-    pageUrl: `${baseUrl}/blogs`,
-    pageKeywords: ["Blogs"],
-    sitemap: {
-      url: `${baseUrl}/blogs`,
-      lastModified: "2026-01-11T00:00:00+05:30",
-      changeFrequency: "yearly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "WebPage",
-      name: "Blogs",
-      url: `${baseUrl}/blogs`,
-      description: "Blogs",
-    },
-  }),
-  (seoConfig["/blogs/how-to-use"] = {
-    pageTitle: "How to Use SocialVault | Secure Social Media Credentials",
-    pageDescription:
-      "A step-by-step guide on how to securely manage your social media login credentials using SocialVault.",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "How to Use SocialVault",
-    pageUrl: `${baseUrl}/blogs/how-to-use`,
-    pageKeywords: [
-      "how to use socialvault",
-      "social media credential management guide",
-      "secure social login",
-      "credential vault tutorial",
-    ],
-    sitemap: {
-      url: `${baseUrl}/blogs/how-to-use`,
-      lastModified: "2026-02-04T00:00:00+05:30",
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "WebPage",
-      name: "How to Use SocialVault",
-      url: `${baseUrl}/blogs/how-to-use`,
-      description:
-        "Learn how to secure your social identities with SocialVault.",
-    },
-  }),
-  (seoConfig["/docs"] = {
-    pageTitle: "Documentation | SocialVault",
-    pageDescription:
-      "Learn how to use SocialVault to manage your social media credentials securely.",
-    ogImageUrl: `${baseUrl}/logo.png`,
-    ogImageAlt: "SocialVault Documentation",
-    pageUrl: `${baseUrl}/docs`,
-    pageKeywords: ["Documentation", "Help Center"],
-    sitemap: {
-      url: `${baseUrl}/docs`,
-      lastModified: "2026-01-11T00:00:00+05:30",
-      changeFrequency: "yearly",
-      priority: 0.8,
-    },
-    jsonLd: {
-      "@type": "WebPage",
-      name: "Documentation - SocialVault",
-      url: `${baseUrl}/docs`,
-      description: "Documentation for SocialVault.",
-    },
-  }));
+};
+
+seoConfig["/contact"] = {
+  pageTitle: "Contact | SocialVault",
+  pageDescription:
+    "Get in touch with the SocialVault team for support or inquiries.",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "Contact SocialVault",
+  pageUrl: `${baseUrl}/contact`,
+  pageKeywords: ["Contact SocialVault", "support"],
+  sitemap: {
+    url: `${baseUrl}/contact`,
+    lastModified: "2025-07-25T00:00:00+05:30",
+    changeFrequency: "yearly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "ContactPage",
+    name: "Contact SocialVault",
+    url: `${baseUrl}/contact`,
+    description: "Get in touch with the SocialVault team.",
+  },
+};
+
+seoConfig["/privacy-policy"] = {
+  pageTitle: "Privacy Policy | SocialVault",
+  pageDescription:
+    "How we protect your social media credentials and data privacy.",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "SocialVault Privacy Policy",
+  pageUrl: `${baseUrl}/privacy-policy`,
+  pageKeywords: ["Privacy Policy", "Data Security"],
+  sitemap: {
+    url: `${baseUrl}/privacy-policy`,
+    lastModified: "2026-01-11T00:00:00+05:30",
+    changeFrequency: "yearly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "WebPage",
+    name: "Privacy Policy - SocialVault",
+    url: `${baseUrl}/privacy-policy`,
+    description: "Privacy Policy for SocialVault.",
+  },
+};
+
+seoConfig["/terms-and-conditions"] = {
+  pageTitle: "Terms and Conditions | SocialVault",
+  pageDescription:
+    "Terms and Conditions for using SocialVault social media credential manager.",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "SocialVault Terms and Conditions",
+  pageUrl: `${baseUrl}/terms-and-conditions`,
+  pageKeywords: ["Terms and Conditions"],
+  sitemap: {
+    url: `${baseUrl}/terms-and-conditions`,
+    lastModified: "2026-01-11T00:00:00+05:30",
+    changeFrequency: "yearly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "WebPage",
+    name: "Terms and Conditions - SocialVault",
+    url: `${baseUrl}/terms-and-conditions`,
+    description: "Terms and Conditions for SocialVault.",
+  },
+};
+
+seoConfig["/blogs"] = {
+  pageTitle: "Blogs",
+  pageDescription: "Blogs",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "Logo",
+  pageUrl: `${baseUrl}/blogs`,
+  pageKeywords: ["Blogs"],
+  sitemap: {
+    url: `${baseUrl}/blogs`,
+    lastModified: "2026-01-11T00:00:00+05:30",
+    changeFrequency: "yearly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "WebPage",
+    name: "Blogs",
+    url: `${baseUrl}/blogs`,
+    description: "Blogs",
+  },
+};
+
+seoConfig["/blogs/how-to-use"] = {
+  pageTitle: "How to Use SocialVault | Secure Social Media Credentials",
+  pageDescription:
+    "A step-by-step guide on how to securely manage your social media login credentials using SocialVault.",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "How to Use SocialVault",
+  pageUrl: `${baseUrl}/blogs/how-to-use`,
+  pageKeywords: [
+    "how to use socialvault",
+    "social media credential management guide",
+    "secure social login",
+    "credential vault tutorial",
+  ],
+  sitemap: {
+    url: `${baseUrl}/blogs/how-to-use`,
+    lastModified: "2026-02-04T00:00:00+05:30",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "WebPage",
+    name: "How to Use SocialVault",
+    url: `${baseUrl}/blogs/how-to-use`,
+    description: "Learn how to secure your social identities with SocialVault.",
+  },
+};
+
+seoConfig["/docs"] = {
+  pageTitle: "Documentation | SocialVault",
+  pageDescription:
+    "Learn how to use SocialVault to manage your social media credentials securely.",
+  ogImageUrl: `${baseUrl}/logo.png`,
+  ogImageAlt: "SocialVault Documentation",
+  pageUrl: `${baseUrl}/docs`,
+  pageKeywords: ["Documentation", "Help Center"],
+  sitemap: {
+    url: `${baseUrl}/docs`,
+    lastModified: "2026-01-11T00:00:00+05:30",
+    changeFrequency: "yearly",
+    priority: 0.8,
+  },
+  jsonLd: {
+    "@type": "WebPage",
+    name: "Documentation - SocialVault",
+    url: `${baseUrl}/docs`,
+    description: "Documentation for SocialVault.",
+  },
+};
 
 export function getMetadataSitemap(slug: string): MetadataSitemapJsonLd {
   const seoData = seoConfig[slug];

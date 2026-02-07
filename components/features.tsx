@@ -1,20 +1,10 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Blocks,
-  BugIcon,
-  CheckCircle,
-  DollarSign,
-  Mail,
-  MessageCircle,
-  PanelTop,
-  Users,
-} from "lucide-react";
+import { Blocks, CheckCircle, Mail, PanelTop } from "lucide-react";
 
 export default function PageFeatures() {
   return (

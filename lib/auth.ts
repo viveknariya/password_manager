@@ -33,9 +33,9 @@ export const withAuth = (handler: Handler) => async (request: NextRequest) => {
     );
   }
 
-  const decoded = verifyToken(token) as any;
+  const decoded = verifyToken(token);
 
-  if (!decoded || !decoded.id) {
+  if (!decoded || typeof decoded === "string" || !decoded.id) {
     return NextResponse.json(
       {
         success: false,

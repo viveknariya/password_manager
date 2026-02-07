@@ -79,9 +79,9 @@ export default function HowToUseSocialVault() {
         <section className="space-y-4 pt-8 border-t">
           <h2 className="text-2xl font-bold">Privacy First</h2>
           <p className="text-muted-foreground leading-relaxed">
-            SocialVault is designed with a minimal footprint. We don't track
-            your browsing history or store any data beyond what is absolutely
-            necessary to manage your credentials.
+            SocialVault is designed with a minimal footprint. We don&apos;t
+            track your browsing history or store any data beyond what is
+            absolutely necessary to manage your credentials.
           </p>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground">
             <li className="flex items-center gap-2">

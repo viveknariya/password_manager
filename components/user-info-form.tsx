@@ -9,17 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAtom } from "jotai";
-import { userAtom } from "@/lib/store";
 import { toast } from "react-hot-toast";
 
 export function UserInfoForm({
@@ -28,8 +20,6 @@ export function UserInfoForm({
 }: React.ComponentProps<"div">) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [, setUser] = useAtom(userAtom);
-  const router = useRouter();
 
   const saveUserInfo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,25 +40,31 @@ export function UserInfoForm({
       } else {
         toast.success(data.message || "User info saved successfully");
       }
-    } catch (error) {}
-  };
-
-  const getUserInfo = async () => {
-    try {
-      const response = await fetch("/api/user-info");
-      const data: ApiResponse<User> = await response.json();
-
-      if (!response.ok || !data.success || !data.data) {
-      }
-      if (data.data) {
-        setFirstName(data.data.first_name || "");
-        setLastName(data.data.last_name || "");
-      }
-    } catch (error) {}
+    } catch {
+      toast.error("An error occurred while saving user info");
+    }
   };
 
   useEffect(() => {
-    getUserInfo();
+    let isMounted = true;
+    const loadUserInfo = async () => {
+      try {
+        const response = await fetch("/api/user-info");
+        const data: ApiResponse<User> = await response.json();
+
+        if (isMounted && data.data) {
+          setFirstName(data.data.first_name || "");
+          setLastName(data.data.last_name || "");
+        }
+      } catch {
+        // Error handling if needed
+      }
+    };
+
+    loadUserInfo();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

@@ -29,7 +29,9 @@ async function updateContext() {
       iframe.style.display = "none";
       iframe.src = targetUrl;
     }
-  } catch (error) {}
+  } catch {
+    // Error handling
+  }
 }
 
 // Global iframe load handler
@@ -38,8 +40,8 @@ iframe.onload = () => {
   iframe.style.display = "block";
 };
 
-// Listen for tab updates (URL changes)
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+// ... listener
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   if (changeInfo.url) {
     updateContext();
   }

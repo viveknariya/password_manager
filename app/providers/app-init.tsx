@@ -24,7 +24,7 @@ export default function AppInitProvider({ children }: { children: ReactNode }) {
       if (data.data) {
         setUser(data.data);
       }
-    } catch (error) {
+    } catch {
       setUser(null);
     } finally {
       setIsInitialized(true);
@@ -33,7 +33,8 @@ export default function AppInitProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     getUserInfo();
-  }, [setUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isInitialized) {
     return "Verifying session...";

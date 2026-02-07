@@ -10,7 +10,7 @@ export async function generateMetadata() {
 
 export default function TermsPage() {
   const lastUpdated = new Date(
-    seoData.sitemapData.lastModified
+    seoData.sitemapData.lastModified,
   ).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -31,7 +31,8 @@ export default function TermsPage() {
               {seoData.metaData.title as string}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Welcome to Zallyy. These Terms and Conditions govern your use of our SaaS template and website.
+              Welcome to Zallyy. These Terms and Conditions govern your use of
+              our SaaS template and website.
             </p>
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
               <span className="relative flex h-2 w-2">
@@ -52,7 +53,11 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  By accessing the Zallyy website or using our GitHub template, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our resources or provide any information to us.
+                  By accessing the Zallyy website or using our GitHub template,
+                  you agree to comply with and be bound by these Terms and
+                  Conditions. If you do not agree with any part of these terms,
+                  you must not use our resources or provide any information to
+                  us.
                 </p>
               </CardContent>
             </Card>
@@ -66,12 +71,24 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  Our core SaaS template is provided "Free Now" via our public GitHub repository. Usage of the code is subject to the terms of the license file included in the repository (typically MIT or similar open-source license).
+                  Our core SaaS template is provided &quot;Free Now&quot; via
+                  our public GitHub repository. Usage of the code is subject to
+                  the terms of the license file included in the repository
+                  (typically MIT or similar open-source license).
                 </p>
                 <ul className="space-y-2 list-disc pl-5 text-sm">
-                  <li>You are free to fork, modify, and use the code for personal or commercial projects.</li>
-                  <li>Attribution to Zallyy is appreciated but governed by the specific license in the repo.</li>
-                  <li>We do not provide warranties or guarantees for the code's fitness for any specific purpose.</li>
+                  <li>
+                    You are free to fork, modify, and use the code for personal
+                    or commercial projects.
+                  </li>
+                  <li>
+                    Attribution to Zallyy is appreciated but governed by the
+                    specific license in the repo.
+                  </li>
+                  <li>
+                    We do not provide warranties or guarantees for the
+                    code&apos;s fitness for any specific purpose.
+                  </li>
                 </ul>
               </CardContent>
             </Card>
@@ -85,7 +102,8 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  The Zallyy website is intended to showcase our template and provide resources for developers. You agree not to:
+                  The Zallyy website is intended to showcase our template and
+                  provide resources for developers. You agree not to:
                 </p>
                 <ul className="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
                   <li className="flex items-start gap-2">
@@ -94,7 +112,8 @@ export default function TermsPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
-                    Attempt to disrupt the website's security or performance.
+                    Attempt to disrupt the website&apos;s security or
+                    performance.
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
@@ -113,7 +132,11 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  While the template code on GitHub is open-source, the Zallyy brand, logo, website design, and proprietary content remain the exclusive property of Zallyy. You may not use our branding in a way that suggests endorsement without explicit permission.
+                  While the template code on GitHub is open-source, the Zallyy
+                  brand, logo, website design, and proprietary content remain
+                  the exclusive property of Zallyy. You may not use our branding
+                  in a way that suggests endorsement without explicit
+                  permission.
                 </p>
               </CardContent>
             </Card>
@@ -127,7 +150,12 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed italic">
                 <p>
-                  THE TEMPLATE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL ZALLY OR ITS CONTRIBUTORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE TEMPLATE OR THE USE OR OTHER DEALINGS IN THE TEMPLATE.
+                  THE TEMPLATE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY
+                  OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL ZALLY OR
+                  ITS CONTRIBUTORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+                  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+                  TEMPLATE OR THE USE OR OTHER DEALINGS IN THE TEMPLATE.
                 </p>
               </CardContent>
             </Card>
@@ -141,7 +169,11 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  We reserve the right to modify these terms at any time. We will notify users of any changes by updating the "Last updated" date at the top of this page. Your continued use of our resources after such changes constitutes acceptance of the new terms.
+                  We reserve the right to modify these terms at any time. We
+                  will notify users of any changes by updating the &quot;Last
+                  updated&quot; date at the top of this page. Your continued use
+                  of our resources after such changes constitutes acceptance of
+                  the new terms.
                 </p>
               </CardContent>
             </Card>
@@ -155,8 +187,12 @@ export default function TermsPage() {
               </CardHeader>
               <CardContent className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
                 <div className="space-y-1">
-                  <p className="font-semibold text-foreground">Legal & Terms Inquiry</p>
-                  <p className="text-primary hover:underline cursor-pointer">legal@zallyy.com</p>
+                  <p className="font-semibold text-foreground">
+                    Legal & Terms Inquiry
+                  </p>
+                  <p className="text-primary hover:underline cursor-pointer">
+                    legal@zallyy.com
+                  </p>
                 </div>
                 <div className="h-px w-full md:h-12 md:w-px bg-primary/10" />
                 <div className="space-y-1">
@@ -165,7 +201,8 @@ export default function TermsPage() {
                 </div>
                 <div className="h-px w-full md:h-12 md:w-px bg-primary/10" />
                 <div className="text-sm italic">
-                  Powered by <span className="font-bold text-foreground">Zallyy</span>
+                  Powered by{" "}
+                  <span className="font-bold text-foreground">Zallyy</span>
                 </div>
               </CardContent>
             </Card>

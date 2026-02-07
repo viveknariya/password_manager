@@ -34,7 +34,7 @@ export function UserBillingForm({
       } else {
         toast.error(data.message || "Failed to create billing portal session");
       }
-    } catch (error) {
+    } catch {
       toast.error(
         "An error occurred while trying to access the billing portal.",
       );
@@ -57,8 +57,8 @@ export function UserBillingForm({
           <div className="flex flex-col gap-4">
             <p className="text-sm text-muted-foreground">
               Click the button below to access your Stripe customer portal.
-              You'll be redirected to a secure page where you can update your
-              plan or payment details.
+              You&apos;ll be redirected to a secure page where you can update
+              your plan or payment details.
             </p>
             <Button
               onClick={handleManageBilling}

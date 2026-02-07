@@ -10,7 +10,7 @@ export async function generateMetadata() {
 
 export default function PrivacyPolicyPage() {
   const lastUpdated = new Date(
-    seoData.sitemapData.lastModified
+    seoData.sitemapData.lastModified,
   ).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -31,7 +31,9 @@ export default function PrivacyPolicyPage() {
               {seoData.metaData.title as string}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              At Zallyy, we value your privacy and transparency. This policy outlines how we handle information in the context of our free SaaS template.
+              At Zallyy, we value your privacy and transparency. This policy
+              outlines how we handle information in the context of our free SaaS
+              template.
             </p>
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
               <span className="relative flex h-2 w-2">
@@ -52,7 +54,12 @@ export default function PrivacyPolicyPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  Zallyy provides a modern, full-stack SaaS template designed to help developers launch products faster. Our philosophy is built on open-source principles and developer empowerment. This Privacy Policy explains our practices regarding data collection on this website and our relationship with the provided source code.
+                  Zallyy provides a modern, full-stack SaaS template designed to
+                  help developers launch products faster. Our philosophy is
+                  built on open-source principles and developer empowerment.
+                  This Privacy Policy explains our practices regarding data
+                  collection on this website and our relationship with the
+                  provided source code.
                 </p>
               </CardContent>
             </Card>
@@ -61,17 +68,26 @@ export default function PrivacyPolicyPage() {
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center gap-3">
                   <div className="h-8 w-1 bg-primary rounded-full" />
-                  The "Free Now" GitHub Repository
+                  The &quot;Free Now&quot; GitHub Repository
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  We are proud to offer our core SaaS template code for free. The source code is publicly available on GitHub for anyone to use, modify, and distribute.
+                  We are proud to offer our core SaaS template code for free.
+                  The source code is publicly available on GitHub for anyone to
+                  use, modify, and distribute.
                 </p>
                 <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
-                  <h4 className="font-semibold text-foreground mb-2">Important Clarity:</h4>
+                  <h4 className="font-semibold text-foreground mb-2">
+                    Important Clarity:
+                  </h4>
                   <p className="text-sm">
-                    When you fork or download our code from GitHub, you become the "Data Controller" for any application you build. Zallyy does not collect, see, or store any data from users of your hosted version. You are responsible for implementing your own privacy policy and security measures for your users.
+                    When you fork or download our code from GitHub, you become
+                    the &quot;Data Controller&quot; for any application you
+                    build. Zallyy does not collect, see, or store any data from
+                    users of your hosted version. You are responsible for
+                    implementing your own privacy policy and security measures
+                    for your users.
                   </p>
                 </div>
               </CardContent>
@@ -86,15 +102,23 @@ export default function PrivacyPolicyPage() {
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <h3 className="font-bold text-foreground">Directly Provided</h3>
+                  <h3 className="font-bold text-foreground">
+                    Directly Provided
+                  </h3>
                   <p className="text-sm">
-                    If you contact us via email, subscribe to our newsletter, or reach out for support, we may store your email address and any information you voluntarily provide to assist you.
+                    If you contact us via email, subscribe to our newsletter, or
+                    reach out for support, we may store your email address and
+                    any information you voluntarily provide to assist you.
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-bold text-foreground">Automatically Collected</h3>
+                  <h3 className="font-bold text-foreground">
+                    Automatically Collected
+                  </h3>
                   <p className="text-sm">
-                    Like most websites, we collect standard browsing data such as IP addresses, browser types, and referral URLs to understand our landing page performance and prevent abuse.
+                    Like most websites, we collect standard browsing data such
+                    as IP addresses, browser types, and referral URLs to
+                    understand our landing page performance and prevent abuse.
                   </p>
                 </div>
               </CardContent>
@@ -138,7 +162,10 @@ export default function PrivacyPolicyPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground leading-relaxed">
                 <p>
-                  You have the right to access, correct, or delete your personal information that we may hold. Since we collect minimal data, most requests can be handled quickly via email. You can also opt-out of any marketing communications at any time.
+                  You have the right to access, correct, or delete your personal
+                  information that we may hold. Since we collect minimal data,
+                  most requests can be handled quickly via email. You can also
+                  opt-out of any marketing communications at any time.
                 </p>
               </CardContent>
             </Card>
@@ -152,8 +179,12 @@ export default function PrivacyPolicyPage() {
               </CardHeader>
               <CardContent className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
                 <div className="space-y-1">
-                  <p className="font-semibold text-foreground">Legal & Privacy Inquiry</p>
-                  <p className="text-primary hover:underline cursor-pointer">legal@zallyy.com</p>
+                  <p className="font-semibold text-foreground">
+                    Legal & Privacy Inquiry
+                  </p>
+                  <p className="text-primary hover:underline cursor-pointer">
+                    legal@zallyy.com
+                  </p>
                 </div>
                 <div className="h-px w-full md:h-12 md:w-px bg-primary/10" />
                 <div className="space-y-1">
@@ -162,7 +193,8 @@ export default function PrivacyPolicyPage() {
                 </div>
                 <div className="h-px w-full md:h-12 md:w-px bg-primary/10" />
                 <div className="text-sm italic">
-                  Powered by <span className="font-bold text-foreground">Zallyy</span>
+                  Powered by{" "}
+                  <span className="font-bold text-foreground">Zallyy</span>
                 </div>
               </CardContent>
             </Card>

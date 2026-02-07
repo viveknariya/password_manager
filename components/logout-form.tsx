@@ -26,7 +26,7 @@ export function LogoutButton() {
         toast.success("You have been logged out successfully.");
       } else {
       }
-    } catch (error) {
+    } catch {
     } finally {
       setIsLoading(false);
     }

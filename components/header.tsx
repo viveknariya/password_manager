@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { FolderGit2 } from "lucide-react";
 
 export default function PageHeader() {
   const navItems = [

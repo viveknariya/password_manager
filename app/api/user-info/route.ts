@@ -37,7 +37,7 @@ export const GET = withAuth(async (request: NextRequest) => {
       message: "User info fetched successfully",
       data: user,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
@@ -87,7 +87,7 @@ export const POST = withAuth(async (request: NextRequest) => {
       message: "User info updated successfully",
       data: updatedUser,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       {
         success: false,

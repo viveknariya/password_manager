@@ -24,8 +24,8 @@ export default function TechStackPage() {
             <div className="rounded-lg border p-4 space-y-2">
               <h3 className="font-medium">PostgreSQL</h3>
               <p className="text-sm text-muted-foreground">
-                The world's most advanced open-source relational database for
-                reliable and scalable data management.
+                The world&apos;s most advanced open-source relational database
+                for reliable and scalable data management.
               </p>
             </div>
             <div className="rounded-lg border p-4 space-y-2">
@@ -53,7 +53,7 @@ export default function TechStackPage() {
               <h3 className="font-medium">ZeptoMail by Zoho</h3>
               <p className="text-sm text-muted-foreground">
                 Reliable transactional email service to ensure your
-                notifications reach users' inboxes.
+                notifications reach users&apos; inboxes.
               </p>
             </div>
           </div>

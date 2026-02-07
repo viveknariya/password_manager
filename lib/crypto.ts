@@ -5,7 +5,6 @@ const APP_SALT = process.env.APP_SALT || "";
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 16;
-const AUTH_TAG_LENGTH = 16;
 
 function validateConfig() {
   if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 64) {

@@ -71,12 +71,12 @@ export const POST = withAuth(async (request: NextRequest) => {
       message: "Portal session created successfully",
       data: { url: session.url },
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json<ApiResponse>(
       {
         success: false,
         message: "Failed to create portal session",
-        error: error.message,
+        error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

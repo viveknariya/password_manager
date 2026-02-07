@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { FolderGit2 } from "lucide-react";
 
 export default function PageHero() {
   return (

@@ -64,7 +64,7 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
       } else {
         toast.error(json.message || "Failed to save account");
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred while saving the account");
     } finally {
       setSubmitting(false);
@@ -99,7 +99,7 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
       } else {
         toast.error(json.message || "Failed to delete account");
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred while deleting the account");
     } finally {
       setSubmitting(false);

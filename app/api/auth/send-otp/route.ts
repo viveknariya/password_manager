@@ -47,7 +47,7 @@ export async function POST(req: Request) {
       success: true,
       message: "OTP sent successfully",
     });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json<ApiResponse>(
       { success: false, message: "Failed to send OTP" },
       { status: 500 },

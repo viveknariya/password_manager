@@ -10,8 +10,8 @@ export const PagePricing = () => {
             Pricing
           </h2>
           <p className="text-xl text-muted-foreground text-pretty max-w-2xl mx-auto">
-            Transparent pricing, no hidden fees. Choose the plan that's right
-            for you.
+            Transparent pricing, no hidden fees. Choose the plan that&apos;s
+            right for you.
           </p>
         </div>
 
