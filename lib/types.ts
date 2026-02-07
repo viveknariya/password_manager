@@ -25,6 +25,7 @@ export interface Otp {
 }
 export interface InstagramAccount {
   id: string;
+  user_id: string;
   email: string;
   password: string;
   username: string;

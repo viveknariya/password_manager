@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
 import { sendEmail } from "@/lib/email";
+import crypto from "node:crypto";
 
 export async function POST(req: Request) {
   try {
@@ -11,18 +12,19 @@ export async function POST(req: Request) {
     if (!email) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "Email is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // Generate 6-digit OTP
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    // Generate 6-digit OTP using cryptographically secure random number generator
+    const otpCode = crypto.randomInt(100000, 1000000).toString();
+    const hashedOtp = crypto.createHash("sha256").update(otpCode).digest("hex");
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes from now
 
-    // Store OTP in database
+    // Store hashed OTP in database
     await sql`
       INSERT INTO otps (email, code, expires_at)
-      VALUES (${email}, ${otpCode}, ${expiresAt})
+      VALUES (${email}, ${hashedOtp}, ${expiresAt})
     `;
 
     // Send email with OTP code
@@ -50,8 +52,8 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Error sending OTP:", error);
     return NextResponse.json<ApiResponse>(
-      { success: false, message: "Failed to send OTP", error: error.message },
-      { status: 500 }
+      { success: false, message: "Failed to send OTP" },
+      { status: 500 },
     );
   }
 }

@@ -7,14 +7,14 @@ import { ApiResponse, User } from "@/lib/types";
 export const POST = withAuth(async (request: NextRequest) => {
   try {
     const sql = getAdminClient();
-    const email = request.headers.get("x-user-email");
+    const userId = request.headers.get("x-user-id");
 
-    if (!email) {
+    if (!userId) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
           message: "Unauthorized",
-          error: "User email not found in headers",
+          error: "User ID not found in headers",
         },
         { status: 401 },
       );
@@ -24,7 +24,7 @@ export const POST = withAuth(async (request: NextRequest) => {
     const [user] = await sql<User[]>`
       SELECT id, email, stripe_customer_id 
       FROM users 
-      WHERE email = ${email}
+      WHERE id = ${userId}
     `;
 
     if (!user) {

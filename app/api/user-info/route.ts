@@ -6,25 +6,29 @@ import { ApiResponse, User } from "@/lib/types";
 export const GET = withAuth(async (request: NextRequest) => {
   try {
     const sql = getAdminClient();
-    const email = request.headers.get("x-user-email");
-    
-    if (!email) {
+    const userId = request.headers.get("x-user-id");
+
+    if (!userId) {
       return NextResponse.json<ApiResponse>(
-        { success: false, message: "Unauthorized", error: "User info not found in request" },
-        { status: 401 }
+        {
+          success: false,
+          message: "Unauthorized",
+          error: "User ID not found in request",
+        },
+        { status: 401 },
       );
     }
 
     const [user] = await sql<User[]>`
       SELECT id, email, first_name, last_name, created_at, updated_at 
       FROM users 
-      WHERE email = ${email}
+      WHERE id = ${userId}
     `;
 
     if (!user) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -36,8 +40,11 @@ export const GET = withAuth(async (request: NextRequest) => {
   } catch (error) {
     console.error("GET /api/user-info error:", error);
     return NextResponse.json<ApiResponse>(
-      { success: false, message: "Internal server error", error: String(error) },
-      { status: 500 }
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 },
     );
   }
 });
@@ -46,12 +53,16 @@ export const POST = withAuth(async (request: NextRequest) => {
   try {
     const { firstName, lastName } = await request.json();
     const sql = getAdminClient();
-    const email = request.headers.get("x-user-email");
+    const userId = request.headers.get("x-user-id");
 
-    if (!email) {
+    if (!userId) {
       return NextResponse.json<ApiResponse>(
-        { success: false, message: "Unauthorized", error: "User info not found in request" },
-        { status: 401 }
+        {
+          success: false,
+          message: "Unauthorized",
+          error: "User ID not found in request",
+        },
+        { status: 401 },
       );
     }
 
@@ -61,14 +72,14 @@ export const POST = withAuth(async (request: NextRequest) => {
         first_name = ${firstName}, 
         last_name = ${lastName}, 
         updated_at = CURRENT_TIMESTAMP 
-      WHERE email = ${email}
+      WHERE id = ${userId}
       RETURNING id, email, first_name, last_name, created_at, updated_at
     `;
 
     if (!updatedUser) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -80,8 +91,11 @@ export const POST = withAuth(async (request: NextRequest) => {
   } catch (error) {
     console.error("POST /api/user-info error:", error);
     return NextResponse.json<ApiResponse>(
-      { success: false, message: "Internal server error", error: String(error) },
-      { status: 500 }
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 },
     );
   }
 });

@@ -35,13 +35,15 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
   const handleSave = async () => {
     setSubmitting(true);
     try {
-      const url = isNew ? "/api/instagram" : `/api/instagram/${account.id}`;
+      const url = "/api/instagram";
       const method = isNew ? "POST" : "PUT";
 
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(
+          isNew ? formData : { ...formData, id: account.id },
+        ),
       });
 
       const json: ApiResponse<InstagramAccount> = await response.json();
@@ -79,8 +81,10 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`/api/instagram/${account.id}`, {
+      const response = await fetch("/api/instagram", {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: account.id }),
       });
 
       const json: ApiResponse = await response.json();

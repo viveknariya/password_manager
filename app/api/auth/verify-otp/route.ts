@@ -3,6 +3,7 @@ import { getAdminClient } from "@/lib/db";
 import { ApiResponse, User, Otp } from "@/lib/types";
 import { signToken } from "@/lib/auth";
 import { cookies } from "next/headers";
+import crypto from "node:crypto";
 
 const sql = getAdminClient();
 
@@ -17,10 +18,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
+
     // Find the latest unused OTP for this email
     const otps = await sql<Otp[]>`
       SELECT * FROM otps
-      WHERE email = ${email} AND code = ${otp} AND used = FALSE
+      WHERE email = ${email} AND code = ${hashedOtp} AND used = FALSE
       ORDER BY created_at DESC
       LIMIT 1
     `;
@@ -47,15 +50,18 @@ export async function POST(req: Request) {
       UPDATE otps SET used = TRUE WHERE id = ${otpDB.id}
     `;
 
-    // Ensure user exists in users table
-    await sql`
+    // Ensure user exists in users table and get their ID
+    const users = await sql<User[]>`
       INSERT INTO users (email)
       VALUES (${email})
-      ON CONFLICT (email) DO NOTHING
+      ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email
+      RETURNING id
     `;
 
+    const user = users[0];
+
     // Sign JWT token
-    const token = signToken({ email: email });
+    const token = signToken({ id: user.id });
 
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
@@ -73,7 +79,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Error verifying OTP:", error);
     return NextResponse.json<ApiResponse>(
-      { success: false, message: "Failed to verify OTP", error: error.message },
+      { success: false, message: "Failed to verify OTP" },
       { status: 500 },
     );
   }

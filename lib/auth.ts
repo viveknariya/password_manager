@@ -35,11 +35,11 @@ export const withAuth = (handler: Handler) => async (request: NextRequest) => {
 
   const decoded = verifyToken(token) as any;
 
-  if (!decoded || !decoded.email) {
+  if (!decoded || !decoded.id) {
     return NextResponse.json(
       {
         success: false,
-        message: "Invalid token or missing email",
+        message: "Invalid token or missing user ID",
         error: "withoutauth",
       },
       { status: 200 },
@@ -48,7 +48,7 @@ export const withAuth = (handler: Handler) => async (request: NextRequest) => {
 
   // Pass the user info down via headers
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-user-email", decoded.email);
+  requestHeaders.set("x-user-id", decoded.id);
 
   // Create a new request with updated headers
   const authenticatedRequest = new NextRequest(request, {
