@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Password Manager Assistant",
+  "version": "1.0",
+  "description": "Quick access to your password manager dashboard.",
+  "permissions": ["sidePanel", "tabs", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Open Password Manager"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

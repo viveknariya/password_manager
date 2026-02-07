@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/db";
 import { withAuth } from "@/lib/auth";
 import { ApiResponse, InstagramAccount, User } from "@/lib/types";
+import { encrypt, decrypt } from "@/lib/crypto";
 
 export const GET = withAuth(async (request: NextRequest) => {
   try {
@@ -31,12 +32,17 @@ export const GET = withAuth(async (request: NextRequest) => {
       );
     }
 
-    const accounts = await sql<InstagramAccount[]>`
+    const accounts = (
+      await sql<InstagramAccount[]>`
       SELECT id, email, username, password, created_at, updated_at
       FROM instagram_accounts
       WHERE user_id = ${user.id}
       ORDER BY created_at DESC
-    `;
+    `
+    ).map((account) => ({
+      ...account,
+      password: decrypt(account.password),
+    }));
 
     return NextResponse.json<ApiResponse<InstagramAccount[]>>({
       success: true,
@@ -85,11 +91,17 @@ export const POST = withAuth(async (request: NextRequest) => {
       );
     }
 
+    const encryptedPassword = encrypt(password);
+
     const [newAccount] = await sql<InstagramAccount[]>`
       INSERT INTO instagram_accounts (user_id, email, username, password)
-      VALUES (${user.id}, ${accountEmail}, ${username}, ${password})
+      VALUES (${user.id}, ${accountEmail}, ${username}, ${encryptedPassword})
       RETURNING id, email, username, password, created_at, updated_at
     `;
+
+    if (newAccount) {
+      newAccount.password = decrypt(newAccount.password);
+    }
 
     return NextResponse.json<ApiResponse<InstagramAccount>>({
       success: true,

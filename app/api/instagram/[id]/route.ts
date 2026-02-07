@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/db";
 import { withAuth } from "@/lib/auth";
 import { ApiResponse, InstagramAccount, User } from "@/lib/types";
+import { encrypt, decrypt } from "@/lib/crypto";
 
 export const PUT = withAuth(async (request: NextRequest) => {
   try {
@@ -33,16 +34,22 @@ export const PUT = withAuth(async (request: NextRequest) => {
       );
     }
 
+    const encryptedPassword = encrypt(password);
+
     const [updatedAccount] = await sql<InstagramAccount[]>`
       UPDATE instagram_accounts
       SET 
         email = ${accountEmail},
         username = ${username},
-        password = ${password},
+        password = ${encryptedPassword},
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id!} AND user_id = ${user.id}
       RETURNING id, email, username, password, created_at, updated_at
     `;
+
+    if (updatedAccount) {
+      updatedAccount.password = decrypt(updatedAccount.password);
+    }
 
     if (!updatedAccount) {
       return NextResponse.json<ApiResponse>(

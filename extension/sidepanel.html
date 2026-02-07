@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Password Manager Assistant</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+      iframe {
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: #f4f4f5;
+        color: #71717a;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading" class="loading">Loading Dashboard...</div>
+    <iframe id="content-frame" style="display: none"></iframe>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

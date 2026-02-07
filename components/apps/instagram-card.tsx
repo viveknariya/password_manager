@@ -184,7 +184,9 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
                 disabled={submitting}
               />
             ) : (
-              <p className="text-sm text-muted-foreground">********</p>
+              <p className="text-sm text-muted-foreground">
+                {account.password}
+              </p>
             )}
           </div>
         </div>

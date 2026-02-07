@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     if (!email || !otp) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "Email and code are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     if (!otpDB) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "Invalid or expired OTP" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     if (new Date() > new Date(otpDB.expires_at)) {
       return NextResponse.json<ApiResponse>(
         { success: false, message: "OTP has expired" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -61,20 +61,20 @@ export async function POST(req: Request) {
     cookieStore.set("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 60 * 60 * 24 * 7, // 1 week
       path: "/",
     });
 
     return NextResponse.json<ApiResponse<{ token: string }>>(
       { success: true, message: "OTP verified successfully", data: { token } },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error: any) {
     console.error("Error verifying OTP:", error);
     return NextResponse.json<ApiResponse>(
       { success: false, message: "Failed to verify OTP", error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
