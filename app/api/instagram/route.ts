@@ -4,21 +4,10 @@ import { withAuth } from "@/lib/auth";
 import { ApiResponse, InstagramAccount } from "@/lib/types";
 import { encrypt, decrypt } from "@/lib/crypto";
 
-export const GET = withAuth(async (request: NextRequest) => {
+export const GET = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     const accounts = (
       await sql<InstagramAccount[]>`
@@ -46,24 +35,14 @@ export const GET = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);
 
-export const POST = withAuth(async (request: NextRequest) => {
+export const POST = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const { email: accountEmail, username, password } = await request.json();
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     const encryptedPassword = encrypt(password);
 
@@ -91,9 +70,11 @@ export const POST = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);
 
-export const PUT = withAuth(async (request: NextRequest) => {
+export const PUT = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const {
       id,
@@ -102,18 +83,6 @@ export const PUT = withAuth(async (request: NextRequest) => {
       password,
     } = await request.json();
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     if (!id) {
       return NextResponse.json<ApiResponse>(
@@ -164,24 +133,14 @@ export const PUT = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);
 
-export const DELETE = withAuth(async (request: NextRequest) => {
+export const DELETE = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const { id } = await request.json();
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     if (!id) {
       return NextResponse.json<ApiResponse>(
@@ -220,4 +179,5 @@ export const DELETE = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);

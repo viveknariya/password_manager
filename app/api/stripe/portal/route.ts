@@ -4,21 +4,10 @@ import { getAdminClient } from "@/lib/db";
 import { withAuth } from "@/lib/auth";
 import { ApiResponse, User } from "@/lib/types";
 
-export const POST = withAuth(async (request: NextRequest) => {
+export const POST = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in headers",
-        },
-        { status: 401 },
-      );
-    }
 
     // 1. Get user from database
     const [user] = await sql<User[]>`
@@ -81,4 +70,5 @@ export const POST = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);

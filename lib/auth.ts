@@ -2,10 +2,14 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { sign, verify, JwtPayload } from "jsonwebtoken";
+import type { AuthContext } from "@/lib/types";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export type Handler = (request: NextRequest) => Promise<NextResponse>;
+export type Handler = (
+  request: NextRequest,
+  auth: AuthContext,
+) => Promise<NextResponse>;
 
 export const signToken = (payload: string | object | Buffer) => {
   return sign(payload, JWT_SECRET, { expiresIn: "7d" });
@@ -46,14 +50,6 @@ export const withAuth = (handler: Handler) => async (request: NextRequest) => {
     );
   }
 
-  // Pass the user info down via headers
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-user-id", decoded.id);
-
-  // Create a new request with updated headers without reusing NextRequest
-  const baseRequest = new Request(request, { headers: requestHeaders });
-  const authenticatedRequest = new NextRequest(baseRequest);
-
-  // call the wrapped route handler
-  return handler(authenticatedRequest);
+  // Call the wrapped route handler with auth context.
+  return handler(request, { userId: decoded.id });
 };

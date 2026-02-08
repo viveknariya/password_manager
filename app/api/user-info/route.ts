@@ -3,21 +3,10 @@ import { getAdminClient } from "@/lib/db";
 import { withAuth } from "@/lib/auth";
 import { ApiResponse, User } from "@/lib/types";
 
-export const GET = withAuth(async (request: NextRequest) => {
+export const GET = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     const [user] = await sql<User[]>`
       SELECT id, email, first_name, last_name, created_at, updated_at 
@@ -46,24 +35,14 @@ export const GET = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);
 
-export const POST = withAuth(async (request: NextRequest) => {
+export const POST = withAuth(
+  async (request: NextRequest, { userId }) => {
   try {
     const { firstName, lastName } = await request.json();
     const sql = getAdminClient();
-    const userId = request.headers.get("x-user-id");
-
-    if (!userId) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized",
-          error: "User ID not found in request",
-        },
-        { status: 401 },
-      );
-    }
 
     const [updatedUser] = await sql<User[]>`
       UPDATE users 
@@ -96,4 +75,5 @@ export const POST = withAuth(async (request: NextRequest) => {
       { status: 500 },
     );
   }
-});
+  },
+);
