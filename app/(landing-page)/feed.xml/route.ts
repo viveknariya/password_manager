@@ -1,7 +1,7 @@
 import RSS from "rss";
 import { seoConfig, baseUrl } from "@/lib/seo";
 
-const feedUrl = "https://zallyy.com/feed.xml";
+const feedUrl = "https://socialvault.zallyy.com/feed.xml";
 
 const avoidUrls = [
   "/",

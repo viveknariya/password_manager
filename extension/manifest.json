@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Quick access to your password manager dashboard.",
   "permissions": ["sidePanel", "tabs", "activeTab"],
+  "host_permissions": ["https://socialvault.zallyy.com/*"],
   "background": {
     "service_worker": "background.js"
   },

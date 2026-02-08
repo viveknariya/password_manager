@@ -9,7 +9,7 @@ import type {
 } from "schema-dts";
 
 export const siteName = "SocialVault";
-export const baseUrl = "https://zallyy.com";
+export const baseUrl = "https://socialvault.zallyy.com";
 export const twitterHandle = "@_Vivek_Nariya_";
 
 export type Sitemap = {

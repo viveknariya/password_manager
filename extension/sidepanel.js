@@ -18,8 +18,8 @@ async function updateContext() {
       currentContext = newContext;
       const targetUrl =
         newContext === "instagram"
-          ? "http://localhost:3000/apps/instagram"
-          : "http://localhost:3000/dashboard";
+          ? "https://socialvault.zallyy.com/apps/instagram"
+          : "https://socialvault.zallyy.com/dashboard";
 
       loading.style.display = "flex";
       loading.innerText =

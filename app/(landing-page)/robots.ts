@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/private/",
     },
-    sitemap: "https://zallyy.com/sitemap.xml", // Replace with your domain
+    sitemap: "https://socialvault.zallyy.com/sitemap.xml", // Replace with your domain
   };
 }
