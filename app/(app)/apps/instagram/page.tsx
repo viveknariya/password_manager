@@ -10,10 +10,22 @@ import {
   userAtom,
 } from "@/lib/store";
 import { InstagramCard } from "@/components/apps/instagram-card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Search, Loader2 } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { ApiResponse, InstagramAccount } from "@/lib/types";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 
 export default function InstagramPage() {
   const [user] = useAtom(userAtom);
@@ -55,32 +67,39 @@ export default function InstagramPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div className="p-6 md:p-10 space-y-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">
           {user?.first_name ? `${user.first_name}'s ` : ""}Instagram Accounts
         </h1>
-        <div className="flex w-full sm:w-auto items-center gap-2">
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
+        <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-2">
+          <InputGroup className="w-full sm:w-64">
+            <InputGroupAddon>
+              <Search className="h-4 w-4" />
+            </InputGroupAddon>
+            <InputGroupInput
               name="search"
               placeholder="Search by username or email"
-              className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
-          <Button onClick={handleAddAccount} disabled={loading}>
+          </InputGroup>
+          <Button
+            onClick={handleAddAccount}
+            disabled={loading}
+            className="w-full sm:w-auto"
+          >
             <Plus className="h-4 w-4 mr-2" /> Add Account
           </Button>
         </div>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
+        <LoadingScreen
+          title="Loading accounts"
+          subtitle="Fetching your saved Instagram credentials."
+          size="sm"
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {editingId === "new" && <InstagramCard account={newAccount} isNew />}
@@ -88,13 +107,22 @@ export default function InstagramPage() {
             <InstagramCard key={account.id} account={account} />
           ))}
           {filteredAccounts.length === 0 && editingId !== "new" && (
-            <div className="col-span-1 md:col-span-2 flex flex-col items-center justify-center py-12 text-center border-2 border-dashed rounded-lg bg-muted/50">
-              <p className="text-lg font-medium">No accounts found</p>
-              <p className="text-sm text-muted-foreground">
-                {searchQuery
-                  ? "Try a different search term"
-                  : "Add your first Instagram account to get started"}
-              </p>
+            <div className="col-span-1 md:col-span-2">
+              <Empty>
+                <EmptyHeader>
+                  <EmptyTitle>No accounts found</EmptyTitle>
+                  <EmptyDescription>
+                    {searchQuery
+                      ? "Try a different search term"
+                      : "Add your first Instagram account to get started"}
+                  </EmptyDescription>
+                </EmptyHeader>
+                <EmptyContent>
+                  <Button onClick={handleAddAccount}>
+                    <Plus className="h-4 w-4 mr-2" /> Add Account
+                  </Button>
+                </EmptyContent>
+              </Empty>
             </div>
           )}
         </div>

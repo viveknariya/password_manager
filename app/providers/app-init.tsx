@@ -5,6 +5,7 @@ import { useState, useEffect, ReactNode } from "react";
 import { userAtom } from "@/lib/store";
 import { User, ApiResponse } from "@/lib/types";
 import { useRouter } from "next/navigation";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 
 export default function AppInitProvider({ children }: { children: ReactNode }) {
   const [, setUser] = useAtom(userAtom);
@@ -37,7 +38,13 @@ export default function AppInitProvider({ children }: { children: ReactNode }) {
   }, []);
 
   if (!isInitialized) {
-    return "Verifying session...";
+    return (
+      <LoadingScreen
+        title="Verifying session"
+        subtitle="Checking your account status."
+        size="sm"
+      />
+    );
   }
 
   return <>{children}</>;

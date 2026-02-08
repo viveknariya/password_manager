@@ -22,6 +22,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ApiResponse, InstagramAccount } from "@/lib/types";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 export default function DashboardPage() {
   const [user] = useAtom(userAtom);
@@ -192,11 +199,22 @@ export default function DashboardPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
-                    <p className="text-sm">No recent activity found</p>
-                    <Button variant="link" size="sm" asChild>
-                      <Link href="/apps/instagram">Add your first account</Link>
-                    </Button>
+                  <div className="p-6">
+                    <Empty className="border-none p-6 md:p-8">
+                      <EmptyHeader>
+                        <EmptyTitle>No recent activity found</EmptyTitle>
+                        <EmptyDescription>
+                          Add your first account to start tracking changes.
+                        </EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <Button size="sm" asChild>
+                          <Link href="/apps/instagram">
+                            Add your first account
+                          </Link>
+                        </Button>
+                      </EmptyContent>
+                    </Empty>
                   </div>
                 )}
               </div>
