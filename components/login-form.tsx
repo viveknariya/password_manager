@@ -47,6 +47,13 @@ export function LoginForm({
     };
   }, []);
 
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
+
   const sendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

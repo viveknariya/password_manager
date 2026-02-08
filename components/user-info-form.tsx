@@ -13,11 +13,14 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useAtom } from "jotai";
+import { userAtom } from "@/lib/store";
 
 export function UserInfoForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [user, setUser] = useAtom(userAtom);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
@@ -38,6 +41,9 @@ export function UserInfoForm({
         // Handle error
         toast.error(data.message || "Failed to save user info");
       } else {
+        if (data.data) {
+          setUser(data.data);
+        }
         toast.success(data.message || "User info saved successfully");
       }
     } catch {

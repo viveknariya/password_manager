@@ -8,7 +8,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Toaster } from "react-hot-toast";
+
 import { Provider as JotaiProvider } from "jotai";
 import AppInitProvider from "../providers/app-init";
 import {
@@ -36,7 +36,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <JotaiProvider>
-      <Toaster />
       <SidebarProvider>
         <AppSidebar className="border-none" />
         <SidebarInset>

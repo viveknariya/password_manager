@@ -7,6 +7,7 @@ import {
   instagramSearchQueryAtom,
   editingInstagramAccountIdAtom,
   instagramAccountsAtom,
+  userAtom,
 } from "@/lib/store";
 import { InstagramCard } from "@/components/apps/instagram-card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import { Plus, Search, Loader2 } from "lucide-react";
 import { ApiResponse, InstagramAccount } from "@/lib/types";
 
 export default function InstagramPage() {
+  const [user] = useAtom(userAtom);
   const [filteredAccounts] = useAtom(filteredInstagramAccountsAtom);
   const [searchQuery, setSearchQuery] = useAtom(instagramSearchQueryAtom);
   const [editingId, setEditingId] = useAtom(editingInstagramAccountIdAtom);
@@ -55,7 +57,9 @@ export default function InstagramPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Instagram Accounts</h1>
+        <h1 className="text-2xl font-bold">
+          {user?.first_name ? `${user.first_name}'s ` : ""}Instagram Accounts
+        </h1>
         <div className="flex w-full sm:w-auto items-center gap-2">
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
