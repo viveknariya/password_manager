@@ -50,10 +50,9 @@ export const withAuth = (handler: Handler) => async (request: NextRequest) => {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-user-id", decoded.id);
 
-  // Create a new request with updated headers
-  const authenticatedRequest = new NextRequest(request, {
-    headers: requestHeaders,
-  });
+  // Create a new request with updated headers without reusing NextRequest
+  const baseRequest = new Request(request, { headers: requestHeaders });
+  const authenticatedRequest = new NextRequest(baseRequest);
 
   // call the wrapped route handler
   return handler(authenticatedRequest);
