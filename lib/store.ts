@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { User, InstagramAccount, AppDefinition } from "@/lib/types";
+import { User, InstagramAccount } from "@/lib/types";
+import { availableApps } from "@/lib/apps";
 
 // Auth state atom
 export const userAtom = atom<User | null>(null);
@@ -30,59 +31,7 @@ export const filteredInstagramAccountsAtom = atom((get) => {
   );
 });
 
-export const availableApps: AppDefinition[] = [
-  {
-    id: "instagram",
-    name: "Instagram",
-    icon: "/instagram.png",
-    url: "/apps/instagram",
-  },
-  {
-    id: "facebook",
-    name: "Facebook",
-    icon: "/facebook.png",
-    url: "/apps/facebook",
-  },
-  {
-    id: "twitter",
-    name: "Twitter",
-    icon: "/twitter.png",
-    url: "/apps/twitter",
-  },
-  {
-    id: "youtube",
-    name: "YouTube",
-    icon: "/youtube.png",
-    url: "/apps/youtube",
-  },
-  {
-    id: "whatsapp",
-    name: "WhatsApp",
-    icon: "/whatsapp.png",
-    url: "/apps/whatsapp",
-  },
-];
-
-const defaultInstalledAppIds = ["instagram"];
-
-const getInitialInstalledAppIds = () => {
-  if (typeof window === "undefined") return defaultInstalledAppIds;
-  try {
-    const stored = window.localStorage.getItem("installed_apps");
-    if (!stored) return defaultInstalledAppIds;
-    const parsed = JSON.parse(stored);
-    if (Array.isArray(parsed)) {
-      return parsed.filter((id) =>
-        availableApps.some((app) => app.id === id),
-      );
-    }
-  } catch {
-    // Ignore malformed storage and fall back to defaults.
-  }
-  return defaultInstalledAppIds;
-};
-
-export const installedAppIdsAtom = atom<string[]>(getInitialInstalledAppIds());
+export const installedAppIdsAtom = atom<string[]>([]);
 
 export const installedAppsAtom = atom((get) => {
   const ids = get(installedAppIdsAtom);

@@ -4,13 +4,9 @@ import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-import {
-  availableApps,
-  installedAppIdsAtom,
-  installedAppsAtom,
-  instagramAccountsAtom,
-} from "@/lib/store";
+import { installedAppIdsAtom, installedAppsAtom, instagramAccountsAtom } from "@/lib/store";
 import { ApiResponse, InstagramAccount } from "@/lib/types";
+import { availableApps } from "@/lib/apps";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -65,27 +61,61 @@ export default function ManageAppsPage() {
     return false;
   };
 
-  const handleAddApp = (appId: string) => {
+  const handleAddApp = async (appId: string) => {
     if (installedAppIds.includes(appId)) {
       toast.error("This app is already in your sidebar.");
       return;
     }
     setBlockedMessage(null);
-    setInstalledAppIds([...installedAppIds, appId]);
-    const app = availableApps.find((item) => item.id === appId);
-    toast.success(`${app?.name ?? "App"} added to your sidebar.`);
+    try {
+      const response = await fetch("/api/user-apps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appId }),
+      });
+      const json: ApiResponse<string[]> = await response.json();
+      if (!json.success) {
+        toast.error(json.message || "Failed to add app.");
+        return;
+      }
+      if (json.data) {
+        setInstalledAppIds(json.data);
+      }
+      const app = availableApps.find((item) => item.id === appId);
+      toast.success(`${app?.name ?? "App"} added to your sidebar.`);
+    } catch {
+      toast.error("An error occurred while adding the app.");
+    }
   };
 
-  const handleRemoveApp = (appId: string) => {
+  const handleRemoveApp = async (appId: string) => {
     if (hasLinkedAccounts(appId)) {
       setBlockedMessage(BLOCKED_MESSAGE);
       toast.error(BLOCKED_MESSAGE);
       return;
     }
-    setBlockedMessage(null);
-    setInstalledAppIds(installedAppIds.filter((id) => id !== appId));
-    const app = availableApps.find((item) => item.id === appId);
-    toast.success(`${app?.name ?? "App"} removed from your sidebar.`);
+    try {
+      const response = await fetch("/api/user-apps", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appId }),
+      });
+      const json: ApiResponse<string[]> = await response.json();
+      if (!json.success) {
+        const message = json.message || "Failed to remove app.";
+        setBlockedMessage(message);
+        toast.error(message);
+        return;
+      }
+      if (json.data) {
+        setInstalledAppIds(json.data);
+      }
+      setBlockedMessage(null);
+      const app = availableApps.find((item) => item.id === appId);
+      toast.success(`${app?.name ?? "App"} removed from your sidebar.`);
+    } catch {
+      toast.error("An error occurred while removing the app.");
+    }
   };
 
   return (
