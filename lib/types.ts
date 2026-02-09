@@ -36,3 +36,10 @@ export interface InstagramAccount {
 export interface AuthContext {
   userId: string;
 }
+
+export interface AppDefinition {
+  id: string;
+  name: string;
+  icon: string;
+  url: string;
+}
