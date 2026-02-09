@@ -3,7 +3,7 @@ import { availableApps } from "@/lib/apps";
 import { AppAccountsPage } from "@/components/apps/app-accounts-page";
 
 interface AppPageProps {
-  params: { app_id: string };
+  params: Promise<{ app_id: string }>;
 }
 
 export default async function AppPage({ params }: AppPageProps) {
