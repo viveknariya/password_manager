@@ -2,6 +2,7 @@
 
 import { useAtom, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import {
   filteredAppAccountsAtom,
   appSearchQueryAtom,
@@ -30,9 +31,14 @@ import { LoadingScreen } from "@/components/ui/loading-screen";
 interface AppAccountsPageProps {
   appId: string;
   appName: string;
+  appIcon: string;
 }
 
-export function AppAccountsPage({ appId, appName }: AppAccountsPageProps) {
+export function AppAccountsPage({
+  appId,
+  appName,
+  appIcon,
+}: AppAccountsPageProps) {
   const [user] = useAtom(userAtom);
   const [filteredAccounts] = useAtom(filteredAppAccountsAtom);
   const [searchQuery, setSearchQuery] = useAtom(appSearchQueryAtom);
@@ -80,10 +86,10 @@ export function AppAccountsPage({ appId, appName }: AppAccountsPageProps) {
   return (
     <div className="p-6 md:p-10 space-y-8">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">
-          {user?.first_name ? `${user.first_name}'s ` : ""}
-          {`${appName} Accounts`}
-        </h1>
+        <div className="flex items-center gap-3">
+          <Image src={appIcon} alt={`${appName} icon`} width={32} height={32} />
+          <h1 className="text-2xl font-bold"> Accounts</h1>
+        </div>
         <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-2">
           <InputGroup className="w-full sm:w-64">
             <InputGroupAddon>
@@ -91,7 +97,7 @@ export function AppAccountsPage({ appId, appName }: AppAccountsPageProps) {
             </InputGroupAddon>
             <InputGroupInput
               name="search"
-              placeholder="Search by username or email"
+              placeholder="username or email"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

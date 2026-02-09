@@ -14,5 +14,7 @@ export default async function AppPage({ params }: AppPageProps) {
     notFound();
   }
 
-  return <AppAccountsPage appId={app.id} appName={app.name} />;
+  return (
+    <AppAccountsPage appId={app.id} appName={app.name} appIcon={app.icon} />
+  );
 }

@@ -18,46 +18,50 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { installedAppsAtom } from "@/lib/store";
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Platform",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/dashboard",
-        },
-      ],
-    },
-    {
-      title: "User",
-      items: [
-        {
-          title: "Info",
-          url: "/user-info",
-        },
-        {
-          title: "Billing",
-          url: "/user-billing",
-        },
-        {
-          title: "Manage Apps",
-          url: "/manage-apps",
-        },
-        {
-          title: "Logout",
-          url: "/logout",
-        },
-      ],
-    },
-  ],
-};
+import { NavMain } from "./nav-main";
+import {
+  DollarSign,
+  Home,
+  Inbox,
+  LogOut,
+  Search,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
+import { NavSecondary } from "./nav-secondary";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const installedApps = useAtomValue(installedAppsAtom);
+
+  const data = {
+    navMain: [
+      {
+        title: "Manage Apps",
+        url: "/manage-apps",
+        icon: Settings,
+      },
+    ],
+    navSecondary: [
+      {
+        title: "Info",
+        url: "/user-info",
+        icon: User,
+      },
+      {
+        title: "Billing",
+        url: "/user-billing",
+        icon: DollarSign,
+      },
+
+      {
+        title: "Logout",
+        url: "/logout",
+        icon: LogOut,
+      },
+    ],
+  };
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -70,22 +74,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items?.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link href={item.url}>{item.title}</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
         <SidebarGroup>
           <SidebarGroupLabel>Apps</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -115,6 +103,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarGroup>
+          <NavMain items={data.navMain} />
+        </SidebarGroup>
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
