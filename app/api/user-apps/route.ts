@@ -92,22 +92,20 @@ export const DELETE = withAuth(async (request: NextRequest, { userId }) => {
 
     const sql = getAdminClient();
 
-    if (appId === "instagram") {
-      const [result] = await sql<{ count: number }[]>`
-        SELECT COUNT(*)::int AS count
-        FROM instagram_accounts
-        WHERE user_id = ${userId}
-      `;
-      if (result?.count && result.count > 0) {
-        return NextResponse.json<ApiResponse>(
-          {
-            success: false,
-            message:
-              "You must delete all accounts linked to this app before removing it from the sidebar.",
-          },
-          { status: 400 },
-        );
-      }
+    const [result] = await sql<{ count: number }[]>`
+      SELECT COUNT(*)::int AS count
+      FROM app_accounts
+      WHERE user_id = ${userId} AND app_id = ${appId}
+    `;
+    if (result?.count && result.count > 0) {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message:
+            "You must delete all accounts linked to this app before removing it from the sidebar.",
+        },
+        { status: 400 },
+      );
     }
 
     await sql`

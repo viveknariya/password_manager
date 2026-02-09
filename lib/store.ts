@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { User, InstagramAccount } from "@/lib/types";
+import { User, AppAccount } from "@/lib/types";
 import { availableApps } from "@/lib/apps";
 
 // Auth state atom
@@ -10,19 +10,19 @@ export const authStateAtom = atom((get) => ({
   user: get(userAtom),
 }));
 
-// Instagram accounts state atom
-export const instagramAccountsAtom = atom<InstagramAccount[]>([]);
+// App accounts state atom
+export const appAccountsAtom = atom<AppAccount[]>([]);
 
 // Search query atom
-export const instagramSearchQueryAtom = atom("");
+export const appSearchQueryAtom = atom("");
 
 // Edited/New account id atom (use "new" for a new account)
-export const editingInstagramAccountIdAtom = atom<string | null>(null);
+export const editingAppAccountIdAtom = atom<string | null>(null);
 
-// Filtered instagram accounts atom
-export const filteredInstagramAccountsAtom = atom((get) => {
-  const accounts = get(instagramAccountsAtom);
-  const search = get(instagramSearchQueryAtom).toLowerCase();
+// Filtered app accounts atom
+export const filteredAppAccountsAtom = atom((get) => {
+  const accounts = get(appAccountsAtom);
+  const search = get(appSearchQueryAtom).toLowerCase();
   if (!search) return accounts;
   return accounts.filter(
     (acc) =>

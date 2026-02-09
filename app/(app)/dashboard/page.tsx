@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { userAtom, instagramAccountsAtom } from "@/lib/store";
+import { userAtom, appAccountsAtom } from "@/lib/store";
 import {
   Card,
   CardContent,
@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ApiResponse, InstagramAccount } from "@/lib/types";
+import { ApiResponse, AppAccount } from "@/lib/types";
 import {
   Empty,
   EmptyContent,
@@ -32,18 +32,18 @@ import {
 
 export default function DashboardPage() {
   const [user] = useAtom(userAtom);
-  const [instagramAccounts, setInstagramAccounts] = useAtom(
-    instagramAccountsAtom,
+  const [appAccounts, setAppAccounts] = useAtom(
+    appAccountsAtom,
   );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/instagram");
-        const json: ApiResponse<InstagramAccount[]> = await response.json();
+        const response = await fetch("/api/app-accounts?appId=instagram");
+        const json: ApiResponse<AppAccount[]> = await response.json();
         if (json.success && json.data) {
-          setInstagramAccounts(json.data);
+          setAppAccounts(json.data);
         }
       } catch (error) {
         console.error("Failed to fetch dashboard data", error);
@@ -53,8 +53,11 @@ export default function DashboardPage() {
     };
 
     fetchData();
-  }, [setInstagramAccounts]);
+  }, [setAppAccounts]);
 
+  const instagramAccounts = appAccounts.filter(
+    (account) => account.app_id === "instagram",
+  );
   const totalAccounts = instagramAccounts.length;
   // Mock data for other stats - in a real app these would come from the backend
   const securityScore = 85;

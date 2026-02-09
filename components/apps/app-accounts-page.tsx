@@ -1,18 +1,18 @@
 "use client";
 
 import { useAtom, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  filteredInstagramAccountsAtom,
-  instagramSearchQueryAtom,
-  editingInstagramAccountIdAtom,
-  instagramAccountsAtom,
+  filteredAppAccountsAtom,
+  appSearchQueryAtom,
+  editingAppAccountIdAtom,
+  appAccountsAtom,
   userAtom,
 } from "@/lib/store";
-import { InstagramCard } from "@/components/apps/instagram-card";
+import { AppAccountCard } from "@/components/apps/app-account-card";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
-import { ApiResponse, InstagramAccount } from "@/lib/types";
+import { ApiResponse, AppAccount } from "@/lib/types";
 import {
   Empty,
   EmptyContent,
@@ -27,19 +27,29 @@ import {
 } from "@/components/ui/input-group";
 import { LoadingScreen } from "@/components/ui/loading-screen";
 
-export default function InstagramPage() {
+interface AppAccountsPageProps {
+  appId: string;
+  appName: string;
+}
+
+export function AppAccountsPage({ appId, appName }: AppAccountsPageProps) {
   const [user] = useAtom(userAtom);
-  const [filteredAccounts] = useAtom(filteredInstagramAccountsAtom);
-  const [searchQuery, setSearchQuery] = useAtom(instagramSearchQueryAtom);
-  const [editingId, setEditingId] = useAtom(editingInstagramAccountIdAtom);
-  const setAccounts = useSetAtom(instagramAccountsAtom);
+  const [filteredAccounts] = useAtom(filteredAppAccountsAtom);
+  const [searchQuery, setSearchQuery] = useAtom(appSearchQueryAtom);
+  const [editingId, setEditingId] = useAtom(editingAppAccountIdAtom);
+  const setAccounts = useSetAtom(appAccountsAtom);
   const [loading, setLoading] = useState(true);
+
+  const visibleAccounts = useMemo(
+    () => filteredAccounts.filter((account) => account.app_id === appId),
+    [filteredAccounts, appId],
+  );
 
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await fetch("/api/instagram");
-        const json: ApiResponse<InstagramAccount[]> = await response.json();
+        const response = await fetch(`/api/app-accounts?appId=${appId}`);
+        const json: ApiResponse<AppAccount[]> = await response.json();
         if (json.success && json.data) {
           setAccounts(json.data);
         }
@@ -50,15 +60,16 @@ export default function InstagramPage() {
     };
 
     fetchAccounts();
-  }, [setAccounts]);
+  }, [appId, setAccounts]);
 
   const handleAddAccount = () => {
     setEditingId("new");
   };
 
-  const newAccount: InstagramAccount = {
+  const newAccount: AppAccount = {
     id: "new",
     user_id: "",
+    app_id: appId,
     username: "",
     email: "",
     password: "",
@@ -70,7 +81,8 @@ export default function InstagramPage() {
     <div className="p-6 md:p-10 space-y-8">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">
-          {user?.first_name ? `${user.first_name}'s ` : ""}Instagram Accounts
+          {user?.first_name ? `${user.first_name}'s ` : ""}
+          {`${appName} Accounts`}
         </h1>
         <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-2">
           <InputGroup className="w-full sm:w-64">
@@ -97,16 +109,28 @@ export default function InstagramPage() {
       {loading ? (
         <LoadingScreen
           title="Loading accounts"
-          subtitle="Fetching your saved Instagram credentials."
+          subtitle={`Fetching your saved ${appName} credentials.`}
           size="sm"
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {editingId === "new" && <InstagramCard account={newAccount} isNew />}
-          {filteredAccounts.map((account) => (
-            <InstagramCard key={account.id} account={account} />
+          {editingId === "new" && (
+            <AppAccountCard
+              account={newAccount}
+              appId={appId}
+              appName={appName}
+              isNew
+            />
+          )}
+          {visibleAccounts.map((account) => (
+            <AppAccountCard
+              key={account.id}
+              account={account}
+              appId={appId}
+              appName={appName}
+            />
           ))}
-          {filteredAccounts.length === 0 && editingId !== "new" && (
+          {visibleAccounts.length === 0 && editingId !== "new" && (
             <div className="col-span-1 md:col-span-2">
               <Empty>
                 <EmptyHeader>
@@ -114,7 +138,7 @@ export default function InstagramPage() {
                   <EmptyDescription>
                     {searchQuery
                       ? "Try a different search term"
-                      : "Add your first Instagram account to get started"}
+                      : `Add your first ${appName} account to get started`}
                   </EmptyDescription>
                 </EmptyHeader>
                 <EmptyContent>

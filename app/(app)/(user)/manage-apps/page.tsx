@@ -4,8 +4,8 @@ import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-import { installedAppIdsAtom, installedAppsAtom, instagramAccountsAtom } from "@/lib/store";
-import { ApiResponse, InstagramAccount } from "@/lib/types";
+import { installedAppIdsAtom, installedAppsAtom } from "@/lib/store";
+import { ApiResponse, AppAccount } from "@/lib/types";
 import { availableApps } from "@/lib/apps";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,18 +24,16 @@ const BLOCKED_MESSAGE =
 export default function ManageAppsPage() {
   const [installedAppIds, setInstalledAppIds] = useAtom(installedAppIdsAtom);
   const installedApps = useAtomValue(installedAppsAtom);
-  const [instagramAccounts, setInstagramAccounts] = useAtom(
-    instagramAccountsAtom,
-  );
+  const [appAccounts, setAppAccounts] = useState<AppAccount[]>([]);
   const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await fetch("/api/instagram");
-        const json: ApiResponse<InstagramAccount[]> = await response.json();
+        const response = await fetch("/api/app-accounts");
+        const json: ApiResponse<AppAccount[]> = await response.json();
         if (json.success && json.data) {
-          setInstagramAccounts(json.data);
+          setAppAccounts(json.data);
         }
       } catch {
         // Ignore fetch errors; removal checks will use current state.
@@ -43,7 +41,7 @@ export default function ManageAppsPage() {
     };
 
     fetchAccounts();
-  }, [setInstagramAccounts]);
+  }, []);
 
   const availableMenuApps = useMemo(
     () =>
@@ -55,10 +53,7 @@ export default function ManageAppsPage() {
   );
 
   const hasLinkedAccounts = (appId: string) => {
-    if (appId === "instagram") {
-      return instagramAccounts.length > 0;
-    }
-    return false;
+    return appAccounts.some((account) => account.app_id === appId);
   };
 
   const handleAddApp = async (appId: string) => {

@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useAtom } from "jotai";
-import {
-  instagramAccountsAtom,
-  editingInstagramAccountIdAtom,
-} from "@/lib/store";
-import { InstagramAccount, ApiResponse } from "@/lib/types";
+import { useAtom, useSetAtom } from "jotai";
+import { appAccountsAtom, editingAppAccountIdAtom } from "@/lib/store";
+import { AppAccount, ApiResponse } from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -20,41 +17,54 @@ import { Label } from "@/components/ui/label";
 import { Trash2, Edit2, Save, X, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
-interface InstagramCardProps {
-  account: InstagramAccount;
+interface AppAccountCardProps {
+  account: AppAccount;
+  appId: string;
+  appName?: string;
   isNew?: boolean;
 }
 
-export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
-  const [accounts, setAccounts] = useAtom(instagramAccountsAtom);
-  const [editingId, setEditingId] = useAtom(editingInstagramAccountIdAtom);
+export function AppAccountCard({
+  account,
+  appId,
+  appName,
+  isNew = false,
+}: AppAccountCardProps) {
+  const setAccounts = useSetAtom(appAccountsAtom);
+  const [editingId, setEditingId] = useAtom(editingAppAccountIdAtom);
   const isEditing = editingId === account.id || isNew;
 
-  const [formData, setFormData] = useState<InstagramAccount>(account);
+  const [formData, setFormData] = useState<AppAccount>(account);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSave = async () => {
     setSubmitting(true);
     try {
-      const url = "/api/instagram";
+      const url = "/api/app-accounts";
       const method = isNew ? "POST" : "PUT";
+
+      const payload = {
+        appId,
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        ...(isNew ? {} : { id: account.id }),
+      };
 
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          isNew ? formData : { ...formData, id: account.id },
-        ),
+        body: JSON.stringify(payload),
       });
 
-      const json: ApiResponse<InstagramAccount> = await response.json();
+      const json: ApiResponse<AppAccount> = await response.json();
 
       if (json.success && json.data) {
         if (isNew) {
-          setAccounts([...accounts, json.data]);
+          setAccounts((prev) => [...prev, json.data!]);
         } else {
-          setAccounts(
-            accounts.map((acc) => (acc.id === account.id ? json.data! : acc)),
+          setAccounts((prev) =>
+            prev.map((acc) => (acc.id === account.id ? json.data! : acc)),
           );
         }
         setEditingId(null);
@@ -85,7 +95,7 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/instagram", {
+      const response = await fetch("/api/app-accounts", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: account.id }),
@@ -94,7 +104,7 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
       const json: ApiResponse = await response.json();
 
       if (json.success) {
-        setAccounts(accounts.filter((acc) => acc.id !== account.id));
+        setAccounts((prev) => prev.filter((acc) => acc.id !== account.id));
         toast.success("Account deleted successfully");
       } else {
         toast.error(json.message || "Failed to delete account");
@@ -106,6 +116,8 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
     }
   };
 
+  const titleLabel = appName ? `${appName} Account` : "Account";
+
   return (
     <Card
       className={`w-full ${submitting ? "opacity-70 pointer-events-none" : ""}`}
@@ -116,7 +128,7 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
             ? isNew
               ? "New Account"
               : "Edit Account"
-            : account.username || "Instagram Account"}
+            : account.username || titleLabel}
         </CardTitle>
         {!isEditing && (
           <div className="flex gap-2">
@@ -200,26 +212,35 @@ export function InstagramCard({ account, isNew = false }: InstagramCardProps) {
           </div>
         </div>
       </CardContent>
-      {isEditing && (
-        <CardFooter className="flex justify-end gap-2">
+      <CardFooter className="flex justify-end gap-2">
+        {isEditing ? (
+          <>
+            <Button
+              variant="outline"
+              onClick={handleCancel}
+              disabled={submitting}
+            >
+              <X className="h-4 w-4 mr-2" /> Cancel
+            </Button>
+            <Button onClick={handleSave} disabled={submitting}>
+              {submitting ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4 mr-2" />
+              )}
+              Save
+            </Button>
+          </>
+        ) : (
           <Button
             variant="outline"
-            size="sm"
-            onClick={handleCancel}
+            onClick={() => setEditingId(account.id)}
             disabled={submitting}
           >
-            <X className="h-4 w-4 mr-2" /> Cancel
+            <Edit2 className="h-4 w-4 mr-2" /> Edit
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={submitting}>
-            {submitting ? (
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4 mr-2" />
-            )}
-            Save
-          </Button>
-        </CardFooter>
-      )}
+        )}
+      </CardFooter>
     </Card>
   );
 }

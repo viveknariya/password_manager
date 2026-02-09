@@ -23,9 +23,10 @@ export interface Otp {
   used: boolean;
   created_at: Date;
 }
-export interface InstagramAccount {
+export interface AppAccount {
   id: string;
   user_id: string;
+  app_id: string;
   email: string;
   password: string;
   username: string;
