@@ -97,7 +97,7 @@ export function LoginForm({
       if (!response.ok || !data.success) {
         toast.error(data.message || "Invalid OTP");
       } else {
-        router.push("/dashboard");
+        router.push("/manage-apps");
         toast.success(data.message || "Logged in successfully");
       }
     } catch (error) {
@@ -120,8 +120,8 @@ export function LoginForm({
           </p>
         </div>
         {user && (
-          <Button onClick={() => router.push("/dashboard")}>
-            Go to Dashboard
+          <Button onClick={() => router.push("/manage-apps")}>
+            Go to Manage Apps
           </Button>
         )}
         {step === "email" && (

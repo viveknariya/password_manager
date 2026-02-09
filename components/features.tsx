@@ -61,10 +61,10 @@ export default function PageFeatures() {
               <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center mb-4">
                 <PanelTop className="h-5 w-5 text-foreground" />
               </div>
-              <CardTitle className="text-xl">Minimal Dashboard</CardTitle>
+              <CardTitle className="text-xl">Minimal Control Center</CardTitle>
               <CardDescription className="text-base">
-                A clean, distraction-free environment built with shadcn/ui for
-                the best user experience.
+                A clean, distraction-free control center built with shadcn/ui
+                for the best user experience.
               </CardDescription>
             </CardHeader>
           </Card>

@@ -45,7 +45,7 @@ export default function HowToUseSocialVault() {
             Add Your Credentials
           </h2>
           <p className="text-muted-foreground leading-relaxed text-lg">
-            Navigate to your dashboard and add credentials for Google, Facebook,
+            Open Manage Apps and add credentials for Google, Facebook,
             Instagram, or YouTube. Simply enter your username and password for
             each platform.
           </p>

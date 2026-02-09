@@ -12,20 +12,20 @@ async function updateContext() {
 
     const newContext = tab.url.includes("instagram.com")
       ? "instagram"
-      : "dashboard";
+      : "manage-apps";
 
     if (currentContext !== newContext) {
       currentContext = newContext;
       const targetUrl =
         newContext === "instagram"
           ? "https://socialvault.zallyy.com/apps/instagram"
-          : "https://socialvault.zallyy.com/dashboard";
+          : "https://socialvault.zallyy.com/manage-apps";
 
       loading.style.display = "flex";
       loading.innerText =
         newContext === "instagram"
           ? "Loading Instagram Manager..."
-          : "Loading Dashboard...";
+          : "Loading Manage Apps...";
       iframe.style.display = "none";
       iframe.src = targetUrl;
     }

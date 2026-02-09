@@ -37,7 +37,7 @@ export default function IntroductionPage() {
               <CardTitle className="text-lg">Velocity</CardTitle>
               <CardDescription>
                 Designed for speed. Access your credentials in seconds with our
-                lightweight dashboard.
+                lightweight control center.
               </CardDescription>
             </CardHeader>
           </Card>

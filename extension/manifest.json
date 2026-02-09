@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Password Manager Assistant",
   "version": "1.0",
-  "description": "Quick access to your password manager dashboard.",
+  "description": "Quick access to your password manager.",
   "permissions": ["sidePanel", "tabs", "activeTab"],
   "host_permissions": ["https://socialvault.zallyy.com/*"],
   "background": {
