@@ -1,20 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { appAccountsAtom, editingAppAccountIdAtom } from "@/lib/store";
 import { AppAccount, ApiResponse } from "@/lib/types";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Trash2, Edit2, Save, X, Loader2 } from "lucide-react";
+import { Trash2, Edit2, Save, X, Loader2, Eye, EyeOff, Copy } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 interface AppAccountCardProps {
@@ -36,6 +35,14 @@ export function AppAccountCard({
 
   const [formData, setFormData] = useState<AppAccount>(account);
   const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setFormData(account);
+    }
+    setShowPassword(false);
+  }, [account, isEditing]);
 
   const handleSave = async () => {
     setSubmitting(true);
@@ -86,6 +93,7 @@ export function AppAccountCard({
       setEditingId(null);
     } else {
       setFormData(account);
+      setShowPassword(false);
       setEditingId(null);
     }
   };
@@ -117,6 +125,24 @@ export function AppAccountCard({
   };
 
   const titleLabel = appName ? `${appName} Account` : "Account";
+  const effectivePassword = isEditing ? formData.password : account.password;
+  const maskedPassword = useMemo(() => {
+    if (!effectivePassword) return "Not set";
+    return "•".repeat(8);
+  }, [effectivePassword]);
+
+  const handleCopy = async (value: string, label: string) => {
+    if (!value) {
+      toast.error(`${label} is empty`);
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success(`${label} copied`);
+    } catch {
+      toast.error(`Failed to copy ${label.toLowerCase()}`);
+    }
+  };
 
   return (
     <Card
@@ -130,117 +156,230 @@ export function AppAccountCard({
               : "Edit Account"
             : account.username || titleLabel}
         </CardTitle>
-        {!isEditing && (
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setEditingId(account.id)}
-              disabled={submitting}
-            >
-              <Edit2 className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleDelete}
-              className="text-destructive"
-              disabled={submitting}
-            >
-              {submitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-        )}
+        <div className="flex gap-2">
+          {isEditing ? (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCancel}
+                disabled={submitting}
+                aria-label="Cancel edit"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleSave}
+                disabled={submitting}
+                aria-label="Save account"
+              >
+                {submitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setEditingId(account.id)}
+                disabled={submitting}
+                aria-label="Edit account"
+              >
+                <Edit2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleDelete}
+                className="text-destructive"
+                disabled={submitting}
+                aria-label="Delete account"
+              >
+                {submitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor={`${account.id}-username`}>Username</Label>
             {isEditing ? (
-              <Input
-                id={`${account.id}-username`}
-                value={formData.username}
-                onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
-                placeholder="Username"
-                disabled={submitting}
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  id={`${account.id}-username`}
+                  value={formData.username}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
+                  placeholder="Username"
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  disabled={submitting}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleCopy(formData.username, "Username")}
+                  disabled={submitting || !formData.username}
+                  aria-label="Copy username"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                {account.username}
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">
+                  {account.username || "Not set"}
+                </p>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleCopy(account.username, "Username")}
+                  disabled={!account.username}
+                  aria-label="Copy username"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor={`${account.id}-email`}>Email</Label>
             {isEditing ? (
-              <Input
-                id={`${account.id}-email`}
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                placeholder="Email"
-                disabled={submitting}
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  id={`${account.id}-email`}
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  placeholder="Email"
+                  autoComplete="email"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  disabled={submitting}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleCopy(formData.email, "Email")}
+                  disabled={submitting || !formData.email}
+                  aria-label="Copy email"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             ) : (
-              <p className="text-sm text-muted-foreground">{account.email}</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">
+                  {account.email || "Not set"}
+                </p>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleCopy(account.email, "Email")}
+                  disabled={!account.email}
+                  aria-label="Copy email"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor={`${account.id}-password`}>Password</Label>
             {isEditing ? (
-              <Input
-                id={`${account.id}-password`}
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                placeholder="Password"
-                disabled={submitting}
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  id={`${account.id}-password`}
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  placeholder="Password"
+                  autoComplete="new-password"
+                  disabled={submitting}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  disabled={submitting}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleCopy(formData.password, "Password")}
+                  disabled={submitting || !formData.password}
+                  aria-label="Copy password"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                {account.password}
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">
+                  {showPassword ? effectivePassword || "Not set" : maskedPassword}
+                </p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    disabled={!effectivePassword}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleCopy(effectivePassword, "Password")}
+                    disabled={!effectivePassword}
+                    aria-label="Copy password"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        {isEditing ? (
-          <>
-            <Button
-              variant="outline"
-              onClick={handleCancel}
-              disabled={submitting}
-            >
-              <X className="h-4 w-4 mr-2" /> Cancel
-            </Button>
-            <Button onClick={handleSave} disabled={submitting}>
-              {submitting ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <Save className="h-4 w-4 mr-2" />
-              )}
-              Save
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant="outline"
-            onClick={() => setEditingId(account.id)}
-            disabled={submitting}
-          >
-            <Edit2 className="h-4 w-4 mr-2" /> Edit
-          </Button>
-        )}
-      </CardFooter>
     </Card>
   );
 }
